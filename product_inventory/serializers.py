@@ -10,7 +10,7 @@ class EnterpriseListSerializer(serializers.ModelSerializer):
         model = Enterprise
         fields = ['id', 'name', 'description', 'work_hours', 'address']
 
-    def get_work_hours(self, obj):
+    def get_work_hours(self, obj) -> str:
         start_of_workday = obj.start_of_workday.strftime("%H:%M")
         end_of_workday = obj.end_of_workday.strftime("%H:%M")
         return f"{start_of_workday} - {end_of_workday}"
@@ -45,3 +45,10 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = ['id', 'name', 'description', 'price', 'stock_quantity', 'category', 'enterprise']
+
+    def validate(self, data):
+        if data['price'] < 0:
+            raise serializers.ValidationError("Price cannot be negative")
+        if data['stock_quantity'] < 0:
+            raise serializers.ValidationError("Stock quantity cannot be negative")
+        return data

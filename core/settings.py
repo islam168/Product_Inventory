@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'drf_spectacular',
 
     'product_inventory.apps.ProductInventoryConfig',
 ]
@@ -56,7 +57,19 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 5
+    'PAGE_SIZE': 5,
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',  # DEFAULT_SCHEMA_CLASS - этот класс
+    # отвечает за генерацию схемы
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Product_Inventory_API",  # название проекта
+    "VERSION": "v1",  # версия проекта
+    "SERVE_INCLUDE_SCHEMA": False,  # исключить эндпоинт /schema
+    "SWAGGER_UI_SETTINGS": {
+        "filter": True,  # включить поиск по тегам
+    },
+    "COMPONENT_SPLIT_REQUEST": True
 }
 
 ROOT_URLCONF = 'core.urls'
