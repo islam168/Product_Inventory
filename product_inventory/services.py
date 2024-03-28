@@ -1,5 +1,6 @@
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import serializers
+from rest_framework.response import Response
 
 
 class EnterpriseService:
@@ -37,6 +38,7 @@ class ProductService:
 
 
 # Pagination
-class LargePagination(PageNumberPagination):
-    page_size = 10  # Number of records on one page
+class NoMetadataPagination(PageNumberPagination):
+    def get_paginated_response(self, data):
+        return Response(data)
 

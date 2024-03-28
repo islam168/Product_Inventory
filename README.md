@@ -4,23 +4,23 @@
 
 ## Инструкции по сборке и запуску
 
-1. Установите Docker и Docker Compose, если они еще не установлены на вашем компьютере.
-2. Склонируйте репозиторий:
+1. Установите Docker и Docker Compose, если они еще не установлены на вашем компьютере. 
+Убедитесь чтобы Docker был запущен у вас на компьютере.
+2. С клонируйте репозиторий:
 
     ```
-    git clone <URL репозитория>
+    git clone https://github.com/islam168/Product_Inventory.git
     ```
 
 3. Перейдите в каталог проекта:
 
     ```
-    cd управление_предприятиями_и_продуктами
+    cd Product_Inventory
     ```
 
 4. Запустите проект с помощью Docker Compose:
 
     ```
-    docker-compose build
     docker-compose up --build
     ```
 
@@ -41,8 +41,32 @@ API предоставляет следующие конечные точки:
 - `/api/product/<int:pk>/` - Просмотр, обновления (полное и частичное) и удаление определенной записи
 
 ### Примеры запросов и ответов:
+1. Создание нового предприятия:
+   **Запрос:**
+    ```
+    POST /api/add_enterprise/
+   {
+       "name": "Enterprise 1",
+       "description": "Description of enterprise 1",
+       "start_of_workday": "09:00",
+       "end_of_workday": "18:00",
+       "address": "Address 1"
+   }
+    ```
 
-1. Получение списка предприятий:
+    **Ответ:**
+    ```json
+   {
+       "id": 1,
+       "name": "Enterprise 1",
+       "description": "Description of enterprise 1",
+       "start_of_workday": "09:00",
+       "end_of_workday": "18:00",
+       "address": "Address 1"
+   }
+    ```
+
+2. Получение списка предприятий:
 
     **Запрос:**
     ```
@@ -57,26 +81,70 @@ API предоставляет следующие конечные точки:
             "name": "Enterprise 1",
             "description": "Description of enterprise 1",
             "work_hours": "09:00 - 18:00",
-            "address": "Kazahstan 1562"
+            "address": "Address 1"
         },
         {
             "id": 2,
             "name": "Enterprise 2",
             "description": "Description of enterprise 2",
             "work_hours": "08:00 - 17:00",
-            "address": "Kazahstan 156"
+            "address": "Address 2"
         }
     ]
     ```
 
-2. Создание нового продукта:
+3. Обновление предприятия:
 
     **Запрос:**
     ```
-    POST /api/products/
+    PUT /api/enterprise/2/
    {
-       "name": "Тест",
-       "description": "Тест",
+       "name": "New Enterprise",
+       "description": "Description of new enterprise",
+       "start_of_workday": "09:00",
+       "end_of_workday": "18:00",
+       "address": "New Address"
+   }
+    ```
+
+    **Ответ:**
+    ```json
+   {
+       "id": 2,
+       "name": "New Enterprise",
+       "description": "Description of new enterprise",
+       "start_of_workday": "09:00",
+       "end_of_workday": "18:00",
+       "address": "New Address"
+   }
+    ```
+
+4. Удаление предприятия  
+
+   **Запрос:**
+    ```
+    DELETE /api/enterprise/1/
+    ```
+
+    **Ответ в случае ошибки при удалении (Нет такой записи для данного запроса):**
+    ```json
+   {
+       "detail": "No Enterprise matches the given query."
+   }
+    ```
+   **Ответ в случае успешного удаления:**
+    ```
+   
+    ```
+
+5. Создание нового продукта (Перед созданием нового продукта следует создать минимум одно предприятие и одну категорию):
+
+    **Запрос:**
+    ```
+    POST /api/add_product/
+   {
+       "name": "Product 1",
+       "description": "Product 1",
        "price": "900.80",
        "stock_quantity": 800,
        "category": 1,
@@ -88,8 +156,8 @@ API предоставляет следующие конечные точки:
     ```json
    {
        "id": 1,
-       "name": "Тест",
-       "description": "Тест",
+       "name": "Product 1",
+       "description": "Product 1",
        "price": "900.80",
        "stock_quantity": 800,
        "category": 1,
@@ -97,11 +165,35 @@ API предоставляет следующие конечные точки:
    }
     ```
 
+6. Получение определенного продукта:
+
+   **Запрос:**
+    ```
+    GET /api/enterprise/1/
+    ```
+
+    **Ответ:**
+    ```json
+   {
+       "id": 1,
+       "name": "Product 1",
+       "description": "Product 1",
+       "price": "900.80",
+       "stock_quantity": 800,
+       "category": 1,
+       "enterprise": 1
+   }
+    ```
+   
 ## Модульные тесты
 
-Модульные тесты для API можно найти в каталоге `product_inventory/tests`. Для запуска тестов воспользуйтесь командой:
-```docker-compose exec web pytest```
+Модульные тесты для API были написаны при помощи ```Pytest```. Их можно найти в каталоге `product_inventory/tests`. Для запуска тестов воспользуйтесь командой:
+
+```
+docker-compose exec web pytest
+```
 
 ## База данных PostgreSQL
 
-Для хранения информации о предприятиях используется PostgreSQL. Схема базы данных определена в соответствии с моделями Django. В файле `docker-compose.yml` настройте параметры базы данных PostgreSQL по необходимости.
+Для хранения информации о предприятиях используется PostgreSQL. 
+Схема базы данных определена в соответствии с моделями Django. В файле `docker-compose.yml` настройте параметры базы данных PostgreSQL по необходимости.

@@ -3,7 +3,7 @@ from rest_framework.generics import ListAPIView, CreateAPIView, RetrieveUpdateDe
 from .models import Enterprise, Category, Product
 from .serializers import (EnterpriseListSerializer, EnterpriseSerializer, CategorySerializer,
                           ProductSerializer, ProductListSerializer)
-from .services import LargePagination
+from .services import NoMetadataPagination
 
 
 # Enterprise
@@ -15,6 +15,8 @@ from .services import LargePagination
 class EnterpriseListAPIView(ListAPIView):
     queryset = Enterprise.objects.all().order_by('id')
     serializer_class = EnterpriseListSerializer
+    pagination_class = NoMetadataPagination
+
 
 
 @extend_schema(
@@ -75,7 +77,7 @@ class EnterpriseUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all().order_by('id')
     serializer_class = CategorySerializer
-    pagination_class = LargePagination
+    pagination_class = NoMetadataPagination
 
 
 @extend_schema(
@@ -136,6 +138,7 @@ class CategoryUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 class ProductListAPIView(ListAPIView):
     queryset = Product.objects.all().order_by('id')
     serializer_class = ProductListSerializer
+    pagination_class = NoMetadataPagination
 
 
 @extend_schema(

@@ -44,11 +44,11 @@ def test_product_list_api_view():
 
     response = client.get(reverse('product_list'))
     assert response.status_code == 200
-    assert len(response.data['results']) == 2
+    assert len(response.data) == 2
 
-    # Access individual products from 'results' list
-    assert response.data['results'][0]['name'] == product_1['name']
-    assert response.data['results'][1]['name'] == product_2['name']
+    # Access individual products from list
+    assert response.data[0]['name'] == product_1['name']
+    assert response.data[1]['name'] == product_2['name']
 
 
 @pytest.mark.django_db
@@ -199,11 +199,11 @@ def test_enterprise_list_api_view():
 
     response = client.get(reverse('enterprise_list'))
     assert response.status_code == 200
-    assert len(response.data['results']) == 2
+    assert len(response.data) == 2
 
-    # Access individual enterprises from 'results' list
-    assert response.data['results'][0]['name'] == enterprise_1['name']
-    assert response.data['results'][1]['name'] == enterprise_2['name']
+    # Access individual enterprises from list
+    assert response.data[0]['name'] == enterprise_1['name']
+    assert response.data[1]['name'] == enterprise_2['name']
 
 
 @pytest.mark.django_db
@@ -322,11 +322,11 @@ def test_category_list_api_view():
 
     response = client.get(reverse('category_list'))
     assert response.status_code == 200
-    assert len(response.data['results']) == 2
+    assert len(response.data) == 2
 
-    # Access individual categories from 'results' list
-    assert response.data['results'][0]['name'] == category_1['name']
-    assert response.data['results'][1]['name'] == category_2['name']
+    # Access individual categories from list
+    assert response.data[0]['name'] == category_1['name']
+    assert response.data[1]['name'] == category_2['name']
 
 
 @pytest.mark.django_db
