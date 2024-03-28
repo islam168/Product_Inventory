@@ -100,9 +100,7 @@ API предоставляет следующие конечные точки:
 ## Модульные тесты
 
 Модульные тесты для API можно найти в каталоге `product_inventory/tests`. Для запуска тестов воспользуйтесь командой:
-***Команда для запуска тестов:***
-
-```docker-compose exec web python manage.py test```
+```docker-compose exec web pytest```
 
 ## База данных PostgreSQL
 
