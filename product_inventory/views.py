@@ -8,9 +8,9 @@ from .services import LargePagination
 
 # Enterprise
 @extend_schema(
-    tags=["Enterprise"],
-    summary="Get a list of enterprises",
-    responses={200: EnterpriseListSerializer},
+    tags=["Enterprise"],  # Tags for API documentation.
+    summary="Get a list of enterprises",  # Summary description for the endpoint.
+    responses={200: EnterpriseListSerializer},  # Expected response schema.
 )
 class EnterpriseListAPIView(ListAPIView):
     queryset = Enterprise.objects.all().order_by('id')
@@ -75,7 +75,7 @@ class EnterpriseUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all().order_by('id')
     serializer_class = CategorySerializer
-    pagination_class = LargePagination  # 10 записей на одной странице, в то время как на других страницах по 5
+    pagination_class = LargePagination
 
 
 @extend_schema(
