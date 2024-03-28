@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Enterprise, Category, Product
+from .services import EnterpriseService, ProductService
 
 
 # Serializer for Get requests
@@ -11,9 +12,7 @@ class EnterpriseListSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'work_hours', 'address']
 
     def get_work_hours(self, obj) -> str:
-        start_of_workday = obj.start_of_workday.strftime("%H:%M")
-        end_of_workday = obj.end_of_workday.strftime("%H:%M")
-        return f"{start_of_workday} - {end_of_workday}"
+        return EnterpriseService.format_work_hours(obj.start_of_workday, obj.end_of_workday)
 
 
 class EnterpriseSerializer(serializers.ModelSerializer):
@@ -47,8 +46,5 @@ class ProductSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description', 'price', 'stock_quantity', 'category', 'enterprise']
 
     def validate(self, data):
-        if data['price'] < 0:
-            raise serializers.ValidationError("Price cannot be negative")
-        if data['stock_quantity'] < 0:
-            raise serializers.ValidationError("Stock quantity cannot be negative")
+        ProductService.validate_product_data(data)
         return data

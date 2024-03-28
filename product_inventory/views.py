@@ -13,7 +13,7 @@ from .services import LargePagination
     responses={200: EnterpriseListSerializer},
 )
 class EnterpriseListAPIView(ListAPIView):
-    queryset = Enterprise.objects.all()
+    queryset = Enterprise.objects.all().order_by('id')
     serializer_class = EnterpriseListSerializer
 
 
@@ -73,7 +73,7 @@ class EnterpriseUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
     responses={200: CategorySerializer},
 )
 class CategoryListAPIView(ListAPIView):
-    queryset = Category.objects.all()
+    queryset = Category.objects.all().order_by('id')
     serializer_class = CategorySerializer
     pagination_class = LargePagination  # 10 записей на одной странице, в то время как на других страницах по 5
 
@@ -134,7 +134,7 @@ class CategoryUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
     responses={200: ProductListSerializer},
 )
 class ProductListAPIView(ListAPIView):
-    queryset = Product.objects.all()
+    queryset = Product.objects.all().order_by('id')
     serializer_class = ProductListSerializer
 
 

@@ -2,7 +2,7 @@
 FROM python:3.9.6-alpine
 
 # set work directory
-WORKDIR /usr/src/reviro
+WORKDIR /usr/src/product_inventory
 
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
